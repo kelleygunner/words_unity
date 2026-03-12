@@ -68,31 +68,31 @@ namespace Com.Game.Scopes.Contracts
         {
             if (_scopeState != ScopeState.Initializing)
                 throw new Exception("Trying to Preload Scope in wrong State");
-            
+
             var preloadList = new List<UniTask>();
             _preloadedAssets.Clear();
+
             foreach (var assetName in AssetsToPreload)
-            {
                 preloadList.Add(PreloadAsset(assetName));
-            }
+
             await UniTask.WhenAll(preloadList);
-            if (_scopeState != ScopeState.Initializing)
-            {
-                Dispose();
+
+            if (ct.IsCancellationRequested)
                 return;
-            }
+
+            if (_scopeState != ScopeState.Initializing)
+                return;
+
             _scopeState = ScopeState.Initialized;
             OnInitialized();
-            
-            return;
 
             async UniTask PreloadAsset(string assetName)
             {
                 await _assetLoader.PreloadAssetAsync(assetName, ct);
-                _preloadedAssets.Add(assetName);
+                if (!ct.IsCancellationRequested)
+                    _preloadedAssets.Add(assetName);
             }
         }
-
         public void Dispose()
         {
             if (_scopeState == ScopeState.Disposed)
