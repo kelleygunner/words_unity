@@ -3,12 +3,20 @@ using System.Linq;
 using System.Numerics;
 using Com.Game.Level.Application;
 using Com.Game.Level.Contracts;
+using Com.Game.Level.Domain;
 using Com.Game.Level.Domain.Definitions;
 
 namespace Com.Game.Level.Infrastructure
 {
     internal class LevelGenerator : ILevelGenerator
     {
+        private readonly IWordDictionary _wordDictionary;
+
+        public LevelGenerator(IWordDictionary wordDictionary)
+        {
+            _wordDictionary = wordDictionary;
+        }
+        
         LevelDefinition ILevelGenerator.GenerateLevel(StartLevelCommand command)
         {
             var words = GenerateWords(command.Word, command.BoardSize);

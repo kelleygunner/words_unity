@@ -12,6 +12,8 @@ namespace Com.Game.Level.Composition
         {
             Container.Bind<ILevelSessionRepository>().To<LevelSessionRepository>().FromNew().AsSingle();
             Container.Bind<ILevelGenerator>().To<LevelGenerator>().FromNew().AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<WordDictionary>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<LevelFacade>().FromNew().AsSingle();
             
             // Use cases
