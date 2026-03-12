@@ -1,3 +1,4 @@
+using System;
 using Com.Game.Level.Application;
 using Com.Game.Level.Application.UseCases;
 using Com.Game.Level.Contracts;
@@ -35,6 +36,6 @@ public class StartLevelTests
         var result = _levelFacade.StartGeneratedLevel(new StartLevelCommand());
 
         Assert.IsNotNull(result);
-        Assert.IsNotNull(result.SessionId);
+        Assert.AreNotEqual(Guid.Empty, result.SessionId);
     }
 }

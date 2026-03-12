@@ -11,7 +11,10 @@ namespace Com.Game.Level.Composition
         public override void InstallBindings()
         {
             Container.Bind<ILevelSessionRepository>().To<LevelSessionRepository>().FromNew().AsSingle();
+            Container.Bind<ILevelGenerator>().To<LevelGenerator>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<LevelFacade>().FromNew().AsSingle();
+            
+            // Use cases
             Container.Bind<StartGeneratedLevelUseCase>().FromNew().AsSingle();
         }
     }
